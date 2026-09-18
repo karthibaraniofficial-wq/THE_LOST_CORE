@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://c3tlelfiks5vo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_spire_crystal"]
+transparency = 1
+albedo_color = Color(0.15, 0.95, 1, 0.9)
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.18, 0.92, 1, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_spire_core"]
+material = SubResource("StandardMaterial3D_spire_crystal")
+top_radius = 0.0
+bottom_radius = 1.2
+height = 7.0
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_spire_flank"]
+material = SubResource("StandardMaterial3D_spire_crystal")
+top_radius = 0.0
+bottom_radius = 0.65
+height = 4.2
+radial_segments = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rock_base"]
+albedo_color = Color(0.18, 0.18, 0.22, 1)
+roughness = 0.9
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_base"]
+material = SubResource("StandardMaterial3D_rock_base")
+top_radius = 2.4
+bottom_radius = 3.2
+height = 1.2
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_coll"]
+height = 8.0
+radius = 2.6
+
+[node name="GiantCrystalSpire" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 0)
+shape = SubResource("CylinderShape3D_coll")
+
+[node name="RockBase" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+mesh = SubResource("CylinderMesh_base")
+
+[node name="CoreSpire" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 0)
+mesh = SubResource("CylinderMesh_spire_core")
+
+[node name="FlankSpire1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0, 1, 1.2, 2.5, 0.3)
+mesh = SubResource("CylinderMesh_spire_flank")
+
+[node name="FlankSpire2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.906308, 0.296198, 0.301537, -0.422618, 0.635074, 0.646564, 0, -0.71325, 0.700909, -1.1, 2.4, -0.5)
+mesh = SubResource("CylinderMesh_spire_flank")
+
+[node name="FlankSpire3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.965926, 0.183013, -0.183013, -0.258819, 0.683013, -0.683013, 0, 0.707107, 0.707107, 0.2, 2.3, -1.2)
+mesh = SubResource("CylinderMesh_spire_flank")
+
+[node name="SpireLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.0, 0)
+light_color = Color(0.2, 0.9, 1, 1)
+light_energy = 5.0
+omni_range = 22.0

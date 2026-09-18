@@ -1,0 +1,274 @@
+[gd_scene load_steps=23 format=3 uid="uid://corechamber001"]
+
+[ext_resource type="PackedScene" path="res://assets/models/pillar_decorated.gltf.glb" id="1_pillar_dec"]
+[ext_resource type="PackedScene" path="res://assets/models/column.gltf.glb" id="2_column"]
+[ext_resource type="PackedScene" path="res://assets/models/wall_arched.gltf.glb" id="3_wall_arched"]
+[ext_resource type="PackedScene" path="res://assets/models/wall_straight_gate.gltf" id="4_vault_gate"]
+[ext_resource type="PackedScene" path="res://assets/models/wall_straight.gltf" id="5_wall_straight"]
+[ext_resource type="PackedScene" path="res://assets/models/stairs_wide.gltf.glb" id="6_stairs_wide"]
+[ext_resource type="PackedScene" path="res://assets/models/barrier_corner.gltf.glb" id="7_barrier_corner"]
+[ext_resource type="PackedScene" path="res://assets/models/chest_gold.glb" id="8_chest_gold"]
+[ext_resource type="PackedScene" path="res://assets/models/Dummy_Base.gltf" id="9_pedestal_base"]
+[ext_resource type="PackedScene" path="res://assets/models/torch_lit.gltf.glb" id="10_torch"]
+[ext_resource type="PackedScene" path="res://assets/models/Cube_Prototype_Large_A.gltf" id="11_rune_mech"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/crystals/CrystalClusterCyan.tscn" id="12_crystal_cyan"]
+[ext_resource type="Script" path="res://scripts/world/interactables/vault_gate.gd" id="13_gate_script"]
+[ext_resource type="Script" path="res://scripts/interaction/lost_core_altar.gd" id="14_core_script"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_chamber_floor"]
+size = Vector3(80, 2, 85)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor_stone"]
+albedo_color = Color(0.2, 0.2, 0.24, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_chamber_floor"]
+material = SubResource("StandardMaterial3D_floor_stone")
+size = Vector3(80, 2, 85)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dais_stone"]
+albedo_color = Color(0.35, 0.35, 0.42, 1)
+roughness = 0.75
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dais_lower"]
+material = SubResource("StandardMaterial3D_dais_stone")
+top_radius = 9.0
+bottom_radius = 10.0
+height = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_dais_upper"]
+material = SubResource("StandardMaterial3D_dais_stone")
+top_radius = 6.0
+bottom_radius = 6.8
+height = 0.8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dais"]
+height = 1.6
+radius = 6.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dais_ramp"]
+size = Vector3(4.5, 0.4, 4.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vault_blocker"]
+size = Vector3(8, 6, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_core_gem"]
+transparency = 1
+albedo_color = Color(0.15, 0.9, 1, 0.9)
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.2, 0.95, 1, 1)
+emission_energy_multiplier = 4.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_core"]
+material = SubResource("StandardMaterial3D_core_gem")
+radius = 0.6
+height = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ring_gold"]
+albedo_color = Color(1, 0.85, 0.3, 1)
+roughness = 0.3
+emission_enabled = true
+emission = Color(1, 0.75, 0.2, 1)
+emission_energy_multiplier = 2.8
+
+[sub_resource type="TorusMesh" id="TorusMesh_ring"]
+material = SubResource("StandardMaterial3D_ring_gold")
+inner_radius = 0.85
+outer_radius = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_core_interact"]
+radius = 3.6
+
+[node name="CoreChamber" type="Node3D"]
+
+[node name="ChamberFloor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -420)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ChamberFloor"]
+shape = SubResource("BoxShape3D_chamber_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ChamberFloor"]
+mesh = SubResource("BoxMesh_chamber_floor")
+
+[node name="CeremonialDais" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -420)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CeremonialDais"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CylinderShape3D_dais")
+
+[node name="NorthRampCollision" type="CollisionShape3D" parent="CeremonialDais"]
+transform = Transform3D(1, 0, 0, 0, 0.92, 0.39, 0, -0.39, 0.92, 0, 0.8, 7.5)
+shape = SubResource("BoxShape3D_dais_ramp")
+
+[node name="SouthRampCollision" type="CollisionShape3D" parent="CeremonialDais"]
+transform = Transform3D(1, 0, 0, 0, 0.92, -0.39, 0, 0.39, 0.92, 0, 0.8, -7.5)
+shape = SubResource("BoxShape3D_dais_ramp")
+
+[node name="DaisLower" type="MeshInstance3D" parent="CeremonialDais"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("CylinderMesh_dais_lower")
+
+[node name="DaisUpper" type="MeshInstance3D" parent="CeremonialDais"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("CylinderMesh_dais_upper")
+
+[node name="NorthSteps" parent="CeremonialDais" instance=ExtResource("6_stairs_wide")]
+transform = Transform3D(1.6, 0, 0, 0, 1.2, 0, 0, 0, 1.5, 0, 0, 8.5)
+
+[node name="SouthSteps" parent="CeremonialDais" instance=ExtResource("6_stairs_wide")]
+transform = Transform3D(-1.6, 0, 0, 0, 1.2, 0, 0, 0, -1.5, 0, 0, -8.5)
+
+[node name="LostCoreAltar" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -420)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("14_core_script")
+
+[node name="InteractionShape" type="CollisionShape3D" parent="LostCoreAltar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("SphereShape3D_core_interact")
+
+[node name="PedestalBase" parent="LostCoreAltar" instance=ExtResource("9_pedestal_base")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0, 0)
+
+[node name="GoldChest" parent="LostCoreAltar" instance=ExtResource("8_chest_gold")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0.5, 0)
+
+[node name="CoreOrb" type="MeshInstance3D" parent="LostCoreAltar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+mesh = SubResource("SphereMesh_core")
+
+[node name="EnergyRing1" type="MeshInstance3D" parent="LostCoreAltar"]
+transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 1.8, 0)
+mesh = SubResource("TorusMesh_ring")
+
+[node name="EnergyRing2" type="MeshInstance3D" parent="LostCoreAltar"]
+transform = Transform3D(0.707, 0, 0.707, -0.354, 0.866, 0.354, -0.612, -0.5, 0.612, 0, 1.8, 0)
+mesh = SubResource("TorusMesh_ring")
+
+[node name="CorePointLight" type="OmniLight3D" parent="LostCoreAltar"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+light_color = Color(0.25, 0.95, 1, 1)
+light_energy = 4.5
+omni_range = 20.0
+
+[node name="CoreSpotlight" type="SpotLight3D" parent="LostCoreAltar"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 12, 0)
+light_color = Color(0.8, 0.95, 1, 1)
+light_energy = 8.0
+spot_range = 16.0
+spot_angle = 36.0
+
+[node name="RuneMechanisms" type="Node3D" parent="."]
+
+[node name="RuneNorthWest" parent="RuneMechanisms" instance=ExtResource("11_rune_mech")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -8.5, 0, -408)
+
+[node name="RuneNorthEast" parent="RuneMechanisms" instance=ExtResource("11_rune_mech")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 8.5, 0, -408)
+
+[node name="RuneSouthWest" parent="RuneMechanisms" instance=ExtResource("11_rune_mech")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, -8.5, 0, -432)
+
+[node name="RuneSouthEast" parent="RuneMechanisms" instance=ExtResource("11_rune_mech")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 8.5, 0, -432)
+
+[node name="PillarsRotunda" type="Node3D" parent="."]
+
+[node name="PillarN1" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, -14, 0, -400)
+
+[node name="PillarN2" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, 14, 0, -400)
+
+[node name="PillarM1" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, -19, 0, -420)
+
+[node name="PillarM2" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, 19, 0, -420)
+
+[node name="PillarS1" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, -14, 0, -440)
+
+[node name="PillarS2" parent="PillarsRotunda" instance=ExtResource("1_pillar_dec")]
+transform = Transform3D(1.8, 0, 0, 0, 2.5, 0, 0, 0, 1.8, 14, 0, -440)
+
+[node name="Column1" parent="PillarsRotunda" instance=ExtResource("2_column")]
+transform = Transform3D(1.6, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -9, 0, -407)
+
+[node name="Column2" parent="PillarsRotunda" instance=ExtResource("2_column")]
+transform = Transform3D(1.6, 0, 0, 0, 2.2, 0, 0, 0, 1.6, 9, 0, -407)
+
+[node name="Column3" parent="PillarsRotunda" instance=ExtResource("2_column")]
+transform = Transform3D(1.6, 0, 0, 0, 2.2, 0, 0, 0, 1.6, -9, 0, -433)
+
+[node name="Column4" parent="PillarsRotunda" instance=ExtResource("2_column")]
+transform = Transform3D(1.6, 0, 0, 0, 2.2, 0, 0, 0, 1.6, 9, 0, -433)
+
+[node name="Guardians" type="Node3D" parent="."]
+
+[node name="Sentinel1" parent="Guardians" instance=ExtResource("7_barrier_corner")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -6, 1.6, -414)
+
+[node name="Sentinel2" parent="Guardians" instance=ExtResource("7_barrier_corner")]
+transform = Transform3D(-1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 6, 1.6, -414)
+
+[node name="Sentinel3" parent="Guardians" instance=ExtResource("7_barrier_corner")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, -1.4, -6, 1.6, -426)
+
+[node name="Sentinel4" parent="Guardians" instance=ExtResource("7_barrier_corner")]
+transform = Transform3D(-1.4, 0, 0, 0, 1.4, 0, 0, 0, -1.4, 6, 1.6, -426)
+
+[node name="ChamberCrystals" type="Node3D" parent="."]
+
+[node name="Crystal1" parent="ChamberCrystals" instance=ExtResource("12_crystal_cyan")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -13, 0, -410)
+
+[node name="Crystal2" parent="ChamberCrystals" instance=ExtResource("12_crystal_cyan")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 13, 0, -410)
+
+[node name="Crystal3" parent="ChamberCrystals" instance=ExtResource("12_crystal_cyan")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -13, 0, -430)
+
+[node name="Crystal4" parent="ChamberCrystals" instance=ExtResource("12_crystal_cyan")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 13, 0, -430)
+
+[node name="AncientVaultGate" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -395)
+script = ExtResource("13_gate_script")
+
+[node name="Gate" parent="AncientVaultGate" instance=ExtResource("4_vault_gate")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0, 0)
+
+[node name="WallL" parent="AncientVaultGate" instance=ExtResource("5_wall_straight")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, -13, 0, 0)
+
+[node name="WallR" parent="AncientVaultGate" instance=ExtResource("5_wall_straight")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 13, 0, 0)
+
+[node name="GateTorchL" parent="AncientVaultGate" instance=ExtResource("10_torch")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, -5, 0, 1.5)
+
+[node name="GateTorchR" parent="AncientVaultGate" instance=ExtResource("10_torch")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 5, 0, 1.5)
+
+[node name="GateLightL" type="OmniLight3D" parent="AncientVaultGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 2.8, 1.5)
+light_color = Color(1, 0.75, 0.4, 1)
+light_energy = 2.4
+omni_range = 10.0
+
+[node name="GateLightR" type="OmniLight3D" parent="AncientVaultGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 2.8, 1.5)
+light_color = Color(1, 0.75, 0.4, 1)
+light_energy = 2.4
+omni_range = 10.0
+
+[node name="VaultBlocker" type="StaticBody3D" parent="AncientVaultGate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AncientVaultGate/VaultBlocker"]
+shape = SubResource("BoxShape3D_vault_blocker")
+

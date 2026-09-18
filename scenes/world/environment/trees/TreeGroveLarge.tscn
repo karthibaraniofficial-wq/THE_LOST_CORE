@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://treegrovelarge001"]
+
+[ext_resource type="PackedScene" path="res://assets/models/trees_A_large.gltf" id="1_tree_a"]
+[ext_resource type="PackedScene" path="res://assets/models/trees_B_large.gltf" id="2_tree_b"]
+[ext_resource type="PackedScene" path="res://assets/models/nature_bush.glb" id="3_bush"]
+[ext_resource type="PackedScene" path="res://assets/models/nature_rock.glb" id="4_rock"]
+
+[node name="TreeGroveLarge" type="Node3D"]
+
+[node name="MainTree" parent="." instance=ExtResource("1_tree_a")]
+transform = Transform3D(1.6, 0, 0, 0, 1.8, 0, 0, 0, 1.6, 0, 0, 0)
+
+[node name="SecondaryTree" parent="." instance=ExtResource("2_tree_b")]
+transform = Transform3D(1.2, 0, 0.4, 0, 1.4, 0, -0.4, 0, 1.2, 3.2, 0, -1.8)
+
+[node name="Bush1" parent="." instance=ExtResource("3_bush")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -1.5, 0, 1.2)
+
+[node name="Bush2" parent="." instance=ExtResource("3_bush")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 2.0, 0, 1.5)
+
+[node name="Boulder" parent="." instance=ExtResource("4_rock")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 1.0, 0, -1.2)

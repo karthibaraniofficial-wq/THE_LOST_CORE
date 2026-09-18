@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://crystalpurple001"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_purple"]
+transparency = 1
+albedo_color = Color(0.85, 0.3, 1, 0.85)
+roughness = 0.15
+emission_enabled = true
+emission = Color(0.88, 0.35, 1, 1)
+emission_energy_multiplier = 3.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shard_main"]
+material = SubResource("StandardMaterial3D_purple")
+top_radius = 0.0
+bottom_radius = 0.32
+height = 2.2
+radial_segments = 6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_shard_small"]
+material = SubResource("StandardMaterial3D_purple")
+top_radius = 0.0
+bottom_radius = 0.2
+height = 1.4
+radial_segments = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_coll"]
+size = Vector3(1.2, 2.2, 1.2)
+
+[node name="CrystalClusterPurple" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("BoxShape3D_coll")
+
+[node name="MainShard" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("CylinderMesh_shard_main")
+
+[node name="SideShard1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.925417, 0, 0.378949, 0, 1, 0, -0.378949, 0, 0.925417, 0.25, 0.65, -0.15)
+mesh = SubResource("CylinderMesh_shard_small")
+
+[node name="SideShard2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.852869, -0.454519, 0.256616, 0.492404, 0.865696, -0.092296, -0.180295, 0.205099, 0.961973, -0.25, 0.6, 0.2)
+mesh = SubResource("CylinderMesh_shard_small")
+
+[node name="CrystalLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+light_color = Color(0.88, 0.35, 1, 1)
+light_energy = 2.2
+omni_range = 8.5

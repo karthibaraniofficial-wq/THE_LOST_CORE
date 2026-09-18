@@ -1,0 +1,15 @@
+# Godot 4 specific ignores
+.godot/
+*.translation
+
+# OS / Tooling
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+*.tmp
+
+# Raw uncompressed video recording stream (>100MB exceeds GitHub file limits)
+video/*.avi
+video/raw_gameplay.avi
+video/test.avi

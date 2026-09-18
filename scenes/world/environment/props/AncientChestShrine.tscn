@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://chestshrine001"]
+
+[ext_resource type="PackedScene" path="res://assets/models/pillar_decorated.gltf.glb" id="1_pillar"]
+[ext_resource type="PackedScene" path="res://assets/models/torch_lit.gltf.glb" id="2_torch"]
+[ext_resource type="PackedScene" path="res://assets/models/banner_shield_blue.gltf.glb" id="3_banner"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_plinth"]
+albedo_color = Color(0.4, 0.4, 0.44, 1)
+roughness = 0.8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_plinth"]
+material = SubResource("StandardMaterial3D_plinth")
+top_radius = 2.2
+bottom_radius = 2.5
+height = 0.15
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_plinth"]
+height = 0.15
+radius = 2.4
+
+[node name="AncientChestShrine" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.075, 0)
+shape = SubResource("CylinderShape3D_plinth")
+
+[node name="PlinthMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.075, 0)
+mesh = SubResource("CylinderMesh_plinth")
+
+[node name="LeftPillar" parent="." instance=ExtResource("1_pillar")]
+transform = Transform3D(1.2, 0, 0, 0, 1.4, 0, 0, 0, 1.2, -1.8, 0, 0)
+
+[node name="RightPillar" parent="." instance=ExtResource("1_pillar")]
+transform = Transform3D(1.2, 0, 0, 0, 1.4, 0, 0, 0, 1.2, 1.8, 0, 0)
+
+[node name="TorchLeft" parent="." instance=ExtResource("2_torch")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -1.8, 2.5, 0)
+
+[node name="TorchRight" parent="." instance=ExtResource("2_torch")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 1.8, 2.5, 0)
+
+[node name="BannerLeft" parent="." instance=ExtResource("3_banner")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -1.8, 1.2, 0.4)
+
+[node name="BannerRight" parent="." instance=ExtResource("3_banner")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 1.8, 1.2, 0.4)
+
+[node name="ShrineGlow" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+light_color = Color(1, 0.85, 0.4, 1)
+light_energy = 1.8
+omni_range = 6.0

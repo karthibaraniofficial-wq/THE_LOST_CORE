@@ -1,0 +1,209 @@
+[gd_scene load_steps=20 format=3 uid="uid://rainbowbridge001"]
+
+[ext_resource type="PackedScene" path="res://assets/models/building_bridge_A.gltf" id="1_bridge_a"]
+[ext_resource type="PackedScene" path="res://assets/models/building_bridge_B.gltf" id="2_bridge_b"]
+[ext_resource type="PackedScene" path="res://assets/models/fence_stone_straight.gltf" id="3_fence_stone"]
+[ext_resource type="PackedScene" path="res://assets/models/pillar_decorated.gltf.glb" id="4_pillar_dec"]
+[ext_resource type="PackedScene" path="res://assets/models/column.gltf.glb" id="5_column"]
+[ext_resource type="PackedScene" path="res://assets/models/torch_lit.gltf.glb" id="6_torch"]
+[ext_resource type="PackedScene" path="res://assets/models/rubble_large.gltf.glb" id="7_rubble"]
+[ext_resource type="PackedScene" path="res://assets/models/building_destroyed.gltf" id="8_destroyed"]
+[ext_resource type="PackedScene" path="res://assets/models/Cube_Prototype_Large_A.gltf" id="9_mechanism"]
+[ext_resource type="PackedScene" path="res://assets/models/rock_single_A.gltf" id="10_rock_a"]
+[ext_resource type="PackedScene" path="res://assets/models/rock_single_B.gltf" id="11_rock_b"]
+[ext_resource type="PackedScene" path="res://assets/models/nature_rock.glb" id="12_rock"]
+[ext_resource type="PackedScene" path="res://assets/models/hills_A.gltf" id="13_hills"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/crystals/CrystalClusterCyan.tscn" id="14_crystal"]
+[ext_resource type="Script" path="res://scripts/world/interactables/bridge_mechanism.gd" id="15_mech"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bank_north"]
+size = Vector3(80, 2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bank_south"]
+size = Vector3(80, 2, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bank_grass"]
+albedo_color = Color(0.26, 0.52, 0.26, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_bank"]
+material = SubResource("StandardMaterial3D_bank_grass")
+size = Vector3(80, 2, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_canyon_rock"]
+albedo_color = Color(0.35, 0.32, 0.28, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_canyon_floor"]
+material = SubResource("StandardMaterial3D_canyon_rock")
+size = Vector3(80, 2, 40)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_canyon_floor"]
+size = Vector3(80, 2, 40)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_river_water"]
+transparency = 1
+albedo_color = Color(0.15, 0.65, 0.85, 0.8)
+roughness = 0.1
+emission_enabled = true
+emission = Color(0.05, 0.25, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_river"]
+material = SubResource("StandardMaterial3D_river_water")
+size = Vector3(80, 0.2, 38)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bridge_span"]
+size = Vector3(7, 1.2, 44)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bridge_deck"]
+albedo_color = Color(0.75, 0.72, 0.65, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_bridge_deck"]
+material = SubResource("StandardMaterial3D_bridge_deck")
+size = Vector3(6, 0.6, 44)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bridge_blocker"]
+size = Vector3(8, 4, 3)
+
+[node name="RainbowBridge" type="Node3D"]
+
+[node name="NorthBankGround" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -148)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NorthBankGround"]
+shape = SubResource("BoxShape3D_bank_north")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NorthBankGround"]
+mesh = SubResource("BoxMesh_bank")
+
+[node name="SouthBankGround" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -212)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SouthBankGround"]
+shape = SubResource("BoxShape3D_bank_south")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SouthBankGround"]
+mesh = SubResource("BoxMesh_bank")
+
+[node name="CanyonFloor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -7, -180)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CanyonFloor"]
+shape = SubResource("BoxShape3D_canyon_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanyonFloor"]
+mesh = SubResource("BoxMesh_canyon_floor")
+
+[node name="River" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.8, -180)
+mesh = SubResource("BoxMesh_river")
+
+[node name="BridgeWalkway" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -180)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BridgeWalkway"]
+shape = SubResource("BoxShape3D_bridge_span")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BridgeWalkway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+mesh = SubResource("BoxMesh_bridge_deck")
+
+[node name="BridgeStructures" type="Node3D" parent="."]
+
+[node name="Arch1" parent="BridgeStructures" instance=ExtResource("1_bridge_a")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, -1.5, -165)
+
+[node name="Arch2" parent="BridgeStructures" instance=ExtResource("2_bridge_b")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, -1.5, -195)
+
+[node name="NorthLeftPillar" parent="BridgeStructures" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -3.8, 0, -158)
+
+[node name="NorthRightPillar" parent="BridgeStructures" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3.8, 0, -158)
+
+[node name="SouthLeftPillar" parent="BridgeStructures" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -3.8, 0, -202)
+
+[node name="SouthRightPillar" parent="BridgeStructures" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 3.8, 0, -202)
+
+[node name="TorchN1" parent="BridgeStructures" instance=ExtResource("6_torch")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -3.8, 2.8, -158)
+
+[node name="TorchN2" parent="BridgeStructures" instance=ExtResource("6_torch")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 3.8, 2.8, -158)
+
+[node name="TorchS1" parent="BridgeStructures" instance=ExtResource("6_torch")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, -3.8, 2.8, -202)
+
+[node name="TorchS2" parent="BridgeStructures" instance=ExtResource("6_torch")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 3.8, 2.8, -202)
+
+[node name="DamagedBridgeSection" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0, -180)
+script = ExtResource("15_mech")
+
+[node name="Rubble1" parent="DamagedBridgeSection" instance=ExtResource("7_rubble")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.8, 0, 0)
+
+[node name="DestroyedRailing" parent="DamagedBridgeSection" instance=ExtResource("8_destroyed")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 2.5, 0, -2)
+
+[node name="MechanismPedestal" parent="DamagedBridgeSection" instance=ExtResource("9_mechanism")]
+transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, -2.4, 0, 0)
+
+[node name="MechanismLight" type="OmniLight3D" parent="DamagedBridgeSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 1.8, 0)
+light_color = Color(0.9, 0.4, 1, 1)
+light_energy = 2.5
+omni_range = 8.0
+
+[node name="BridgeBlocker" type="StaticBody3D" parent="DamagedBridgeSection"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DamagedBridgeSection/BridgeBlocker"]
+shape = SubResource("BoxShape3D_bridge_blocker")
+
+[node name="BridgeCrystals" type="Node3D" parent="."]
+
+[node name="CrystalNorth" parent="BridgeCrystals" instance=ExtResource("14_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -155)
+
+[node name="CrystalSouth" parent="BridgeCrystals" instance=ExtResource("14_crystal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, -205)
+
+[node name="CanyonCliffs" type="Node3D" parent="."]
+
+[node name="CliffL1" parent="CanyonCliffs" instance=ExtResource("10_rock_a")]
+transform = Transform3D(3.5, 0, 0, 0, 4, 0, 0, 0, 3.5, -12, -4, -165)
+
+[node name="CliffL2" parent="CanyonCliffs" instance=ExtResource("11_rock_b")]
+transform = Transform3D(3.5, 0, 0, 0, 4.5, 0, 0, 0, 3.5, -14, -4, -195)
+
+[node name="CliffR1" parent="CanyonCliffs" instance=ExtResource("10_rock_a")]
+transform = Transform3D(3.5, 0, 0, 0, 4, 0, 0, 0, 3.5, 12, -4, -165)
+
+[node name="CliffR2" parent="CanyonCliffs" instance=ExtResource("12_rock")]
+transform = Transform3D(4, 0, 0, 0, 4.5, 0, 0, 0, 4, 14, -4, -195)
+
+[node name="HillsLeft" parent="CanyonCliffs" instance=ExtResource("13_hills")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -35, 0, -180)
+
+[node name="HillsRight" parent="CanyonCliffs" instance=ExtResource("13_hills")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 35, 0, -180)
+
+[node name="MagicalLighting" type="Node3D" parent="."]
+
+[node name="BridgeCenterGlow" type="OmniLight3D" parent="MagicalLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -180)
+light_color = Color(0.7, 0.9, 1, 1)
+light_energy = 1.8
+omni_range = 18.0
+
+[node name="RiverMistGlow" type="OmniLight3D" parent="MagicalLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4, -180)
+light_color = Color(0.3, 0.7, 0.95, 1)
+light_energy = 2.0
+omni_range = 22.0

@@ -1,0 +1,220 @@
+[gd_scene load_steps=20 format=3 uid="uid://hiddenforest001"]
+
+[ext_resource type="PackedScene" path="res://assets/models/nature_tree.glb" id="1_tree"]
+[ext_resource type="PackedScene" path="res://assets/models/trees_A_large.gltf" id="2_trees_a_large"]
+[ext_resource type="PackedScene" path="res://assets/models/trees_B_large.gltf" id="3_trees_b_large"]
+[ext_resource type="PackedScene" path="res://assets/models/tree_single_A.gltf" id="4_tree_single_a"]
+[ext_resource type="PackedScene" path="res://assets/models/tree_single_B.gltf" id="5_tree_single_b"]
+[ext_resource type="PackedScene" path="res://assets/models/trees_A_cut.gltf" id="6_trees_cut"]
+[ext_resource type="PackedScene" path="res://assets/models/nature_bush.glb" id="7_bush"]
+[ext_resource type="PackedScene" path="res://assets/models/nature_rock.glb" id="8_rock"]
+[ext_resource type="PackedScene" path="res://assets/models/rock_single_A.gltf" id="9_rock_a"]
+[ext_resource type="PackedScene" path="res://assets/models/rock_single_C.gltf" id="10_rock_c"]
+[ext_resource type="PackedScene" path="res://assets/models/waterlily_A.gltf" id="11_waterlily"]
+[ext_resource type="PackedScene" path="res://assets/models/waterplant_A.gltf" id="12_waterplant"]
+[ext_resource type="PackedScene" path="res://assets/models/Primitive_Pillar.gltf" id="13_pillar"]
+[ext_resource type="PackedScene" path="res://assets/models/Dummy_Base.gltf" id="14_sign_base"]
+[ext_resource type="Script" path="res://scripts/world/interactables/bramble_barrier.gd" id="15_bramble"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ground"]
+size = Vector3(80, 2, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_forest_grass"]
+albedo_color = Color(0.22, 0.46, 0.2, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = SubResource("StandardMaterial3D_forest_grass")
+size = Vector3(80, 2, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_forest_path"]
+albedo_color = Color(0.52, 0.44, 0.32, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_path"]
+material = SubResource("StandardMaterial3D_forest_path")
+size = Vector3(5, 0.06, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stream"]
+transparency = 1
+albedo_color = Color(0.18, 0.62, 0.78, 0.75)
+roughness = 0.15
+
+[sub_resource type="BoxMesh" id="BoxMesh_stream"]
+material = SubResource("StandardMaterial3D_stream")
+size = Vector3(80, 0.08, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_blockage"]
+size = Vector3(12, 4, 8)
+
+[node name="HiddenForest" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -100)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_ground")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_ground")
+
+[node name="ForestPath" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -100)
+mesh = SubResource("BoxMesh_path")
+
+[node name="Stream" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -95)
+mesh = SubResource("BoxMesh_stream")
+
+[node name="StreamSteppingStones" type="Node3D" parent="."]
+
+[node name="Stone1" parent="StreamSteppingStones" instance=ExtResource("10_rock_c")]
+transform = Transform3D(1.2, 0, 0, 0, 0.6, 0, 0, 0, 1.2, -1.2, 0.02, -95)
+
+[node name="Stone2" parent="StreamSteppingStones" instance=ExtResource("10_rock_c")]
+transform = Transform3D(1.1, 0, 0, 0, 0.6, 0, 0, 0, 1.1, 1.2, 0.02, -95)
+
+[node name="Waterlily1" parent="StreamSteppingStones" instance=ExtResource("11_waterlily")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -8, 0.06, -95)
+
+[node name="Waterlily2" parent="StreamSteppingStones" instance=ExtResource("11_waterlily")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 9, 0.06, -95)
+
+[node name="Waterplant1" parent="StreamSteppingStones" instance=ExtResource("12_waterplant")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -4.5, 0, -96)
+
+[node name="Waterplant2" parent="StreamSteppingStones" instance=ExtResource("12_waterplant")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 4.5, 0, -94)
+
+[node name="DenseTreesLeft" type="Node3D" parent="."]
+
+[node name="TreeL1" parent="DenseTreesLeft" instance=ExtResource("1_tree")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, -7, 0, -68)
+
+[node name="TreeL2" parent="DenseTreesLeft" instance=ExtResource("2_trees_a_large")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, -14, 0, -75)
+
+[node name="TreeL3" parent="DenseTreesLeft" instance=ExtResource("3_trees_b_large")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, -9, 0, -88)
+
+[node name="TreeL4" parent="DenseTreesLeft" instance=ExtResource("1_tree")]
+transform = Transform3D(2.6, 0, 0, 0, 2.6, 0, 0, 0, 2.6, -17, 0, -105)
+
+[node name="TreeL5" parent="DenseTreesLeft" instance=ExtResource("4_tree_single_a")]
+transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, -8, 0, -118)
+
+[node name="TreeL6" parent="DenseTreesLeft" instance=ExtResource("2_trees_a_large")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, -19, 0, -128)
+
+[node name="TreeL7" parent="DenseTreesLeft" instance=ExtResource("5_tree_single_b")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, -6, 0, -135)
+
+[node name="DenseTreesRight" type="Node3D" parent="."]
+
+[node name="TreeR1" parent="DenseTreesRight" instance=ExtResource("1_tree")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 7, 0, -70)
+
+[node name="TreeR2" parent="DenseTreesRight" instance=ExtResource("3_trees_b_large")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 15, 0, -76)
+
+[node name="TreeR3" parent="DenseTreesRight" instance=ExtResource("2_trees_a_large")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 8, 0, -112)
+
+[node name="TreeR4" parent="DenseTreesRight" instance=ExtResource("1_tree")]
+transform = Transform3D(2.4, 0, 0, 0, 2.4, 0, 0, 0, 2.4, 17, 0, -122)
+
+[node name="TreeR5" parent="DenseTreesRight" instance=ExtResource("4_tree_single_a")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 8, 0, -132)
+
+[node name="TreeR6" parent="DenseTreesRight" instance=ExtResource("2_trees_a_large")]
+transform = Transform3D(1.6, 0, 0, 0, 1.6, 0, 0, 0, 1.6, 21, 0, -135)
+
+[node name="ForestClearing" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -100)
+
+[node name="Monolith1" parent="ForestClearing" instance=ExtResource("13_pillar")]
+transform = Transform3D(1.3, 0, 0, 0, 1.6, 0, 0, 0, 1.3, -4, 0, -4)
+
+[node name="Monolith2" parent="ForestClearing" instance=ExtResource("13_pillar")]
+transform = Transform3D(1.2, 0, 0, 0, 1.8, 0, 0, 0, 1.2, 4, 0, -4)
+
+[node name="Monolith3" parent="ForestClearing" instance=ExtResource("13_pillar")]
+transform = Transform3D(1.4, 0, 0, 0, 1.5, 0, 0, 0, 1.4, 0, 0, 5)
+
+[node name="AncientSign" parent="ForestClearing" instance=ExtResource("14_sign_base")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 0, 0, 0)
+
+[node name="ClearingLight" type="OmniLight3D" parent="ForestClearing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+light_color = Color(0.4, 1, 0.65, 1)
+light_energy = 2.4
+omni_range = 10.0
+
+[node name="BlockedQuackyPath" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -88)
+script = ExtResource("15_bramble")
+
+[node name="FallenTrunk1" parent="BlockedQuackyPath" instance=ExtResource("6_trees_cut")]
+transform = Transform3D(2.2, 0, 0, 0, 2.2, 0, 0, 0, 2.2, 0, 0, 0)
+
+[node name="FallenTrunk2" parent="BlockedQuackyPath" instance=ExtResource("6_trees_cut")]
+transform = Transform3D(1.9, 0, 0.7, 0, 1.9, 0, -0.7, 0, 1.9, 2.5, 0, -1.8)
+
+[node name="BlockageBoulders" parent="BlockedQuackyPath" instance=ExtResource("8_rock")]
+transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 1.5, 0, 1.5)
+
+[node name="ThornBush1" parent="BlockedQuackyPath" instance=ExtResource("7_bush")]
+transform = Transform3D(2.0, 0, 0, 0, 2.0, 0, 0, 0, 2.0, -1.8, 0, 0.8)
+
+[node name="ThornBush2" parent="BlockedQuackyPath" instance=ExtResource("7_bush")]
+transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, 3.2, 0, -0.8)
+
+[node name="ObstacleWarningLight" type="OmniLight3D" parent="BlockedQuackyPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.8, 0)
+light_color = Color(0.95, 0.45, 0.2, 1)
+light_energy = 2.8
+omni_range = 8.0
+
+[node name="PathBlockerCollision" type="StaticBody3D" parent="BlockedQuackyPath"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BlockedQuackyPath/PathBlockerCollision"]
+shape = SubResource("BoxShape3D_blockage")
+
+
+[node name="BushesAndRocks" type="Node3D" parent="."]
+
+[node name="Bush1" parent="BushesAndRocks" instance=ExtResource("7_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -4.2, 0, -78)
+
+[node name="Bush2" parent="BushesAndRocks" instance=ExtResource("7_bush")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 4.2, 0, -82)
+
+[node name="Bush3" parent="BushesAndRocks" instance=ExtResource("7_bush")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -4.5, 0, -122)
+
+[node name="Bush4" parent="BushesAndRocks" instance=ExtResource("7_bush")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, 4.5, 0, -125)
+
+[node name="Rock1" parent="BushesAndRocks" instance=ExtResource("9_rock_a")]
+transform = Transform3D(1.9, 0, 0, 0, 1.9, 0, 0, 0, 1.9, -5.2, 0, -72)
+
+[node name="Rock2" parent="BushesAndRocks" instance=ExtResource("10_rock_c")]
+transform = Transform3D(2.1, 0, 0, 0, 2.1, 0, 0, 0, 2.1, 5.5, 0, -105)
+
+[node name="Rock3" parent="BushesAndRocks" instance=ExtResource("8_rock")]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, -4.2, 0, -132)
+
+[node name="ForestLighting" type="Node3D" parent="."]
+
+[node name="GladeLight1" type="OmniLight3D" parent="ForestLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -80)
+light_color = Color(0.85, 0.95, 0.7, 1)
+light_energy = 1.4
+omni_range = 14.0
+
+[node name="GladeLight2" type="OmniLight3D" parent="ForestLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -120)
+light_color = Color(0.85, 0.95, 0.7, 1)
+light_energy = 1.4
+omni_range = 14.0

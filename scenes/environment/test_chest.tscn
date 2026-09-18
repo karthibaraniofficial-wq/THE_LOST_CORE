@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://ctestchest001"]
+
+[ext_resource type="Script" path="res://scripts/interaction/test_chest.gd" id="1_chest_script"]
+[ext_resource type="PackedScene" path="res://assets/models/chest.glb" id="2_chest_model"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trigger"]
+size = Vector3(2.5, 2.0, 2.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_solid"]
+size = Vector3(1.2, 0.9, 1.0)
+
+[node name="TestChest" type="Area3D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_chest_script")
+prompt_message = "Open Ancient Chest"
+object_name = "Ancient Chest"
+
+[node name="TriggerCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_trigger")
+
+[node name="ChestModel" parent="." instance=ExtResource("2_chest_model")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 1
+
+[node name="SolidCollision" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+shape = SubResource("BoxShape3D_solid")
+
+[node name="GlowLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+visible = false
+light_color = Color(1, 0.835, 0.31, 1)
+light_energy = 0.0
+omni_range = 5.0

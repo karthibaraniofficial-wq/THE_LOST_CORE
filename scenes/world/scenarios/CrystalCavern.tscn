@@ -1,0 +1,150 @@
+[gd_scene format=3 uid="uid://bmt6y16sl405q"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/environment/crystals/GiantCrystalSpire.tscn" id="1_giant_spire"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/crystals/CrystalClusterCyan.tscn" id="2_crystal_cyan"]
+[ext_resource type="PackedScene" path="res://scenes/world/environment/crystals/CrystalClusterPurple.tscn" id="3_crystal_purp"]
+[ext_resource type="PackedScene" path="res://assets/models/pillar_decorated.gltf.glb" id="4_pillar_dec"]
+[ext_resource type="PackedScene" path="res://assets/models/column.gltf.glb" id="5_column"]
+[ext_resource type="PackedScene" path="res://assets/models/building_bridge_A.gltf" id="6_bridge"]
+[ext_resource type="PackedScene" path="res://assets/models/Cube_Prototype_Large_A.gltf" id="7_machinery"]
+[ext_resource type="PackedScene" path="res://assets/models/Dummy_Base.gltf" id="8_pedestal"]
+[ext_resource type="PackedScene" path="res://assets/models/rock_single_B.gltf" id="9_rock_b"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cavern_floor"]
+size = Vector3(70, 2, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cavern_stone"]
+albedo_color = Color(0.12, 0.12, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_cavern_floor"]
+material = SubResource("StandardMaterial3D_cavern_stone")
+size = Vector3(70, 2, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cavern_ceiling"]
+albedo_color = Color(0.1, 0.1, 0.14, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_cavern_ceiling"]
+material = SubResource("StandardMaterial3D_cavern_ceiling")
+size = Vector3(70, 2, 80)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_crystal_pool"]
+transparency = 1
+albedo_color = Color(0.1, 0.8, 0.95, 0.8)
+roughness = 0.08
+emission_enabled = true
+emission = Color(0.1, 0.65, 0.9, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crystal_pool"]
+material = SubResource("StandardMaterial3D_crystal_pool")
+size = Vector3(40, 0.1, 26)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stone_path"]
+albedo_color = Color(0.55, 0.52, 0.48, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_path"]
+material = SubResource("StandardMaterial3D_stone_path")
+size = Vector3(6, 0.06, 80)
+
+[node name="CrystalCavern" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -340)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_cavern_floor")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_cavern_floor")
+
+[node name="Ceiling" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.5, -340)
+mesh = SubResource("BoxMesh_cavern_ceiling")
+
+[node name="CrystalPath" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.04, -340)
+mesh = SubResource("BoxMesh_path")
+
+[node name="ReflectiveCrystalPool" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -340)
+mesh = SubResource("BoxMesh_crystal_pool")
+
+[node name="GiantCrystalLandmark" parent="." instance=ExtResource("1_giant_spire")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -6.5, 0, -340)
+
+[node name="CrystalClusters" type="Node3D" parent="."]
+
+[node name="Cyan1" parent="CrystalClusters" instance=ExtResource("2_crystal_cyan")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -3.8, 0, -315)
+
+[node name="Purple1" parent="CrystalClusters" instance=ExtResource("3_crystal_purp")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 3.8, 0, -315)
+
+[node name="Cyan2" parent="CrystalClusters" instance=ExtResource("2_crystal_cyan")]
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, 4.2, 0, -332)
+
+[node name="Purple2" parent="CrystalClusters" instance=ExtResource("3_crystal_purp")]
+transform = Transform3D(1.3, 0, 0, 0, 1.3, 0, 0, 0, 1.3, -4.5, 0, -355)
+
+[node name="Cyan3" parent="CrystalClusters" instance=ExtResource("2_crystal_cyan")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 3.8, 0, -365)
+
+[node name="Purple3" parent="CrystalClusters" instance=ExtResource("3_crystal_purp")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 6.5, 0, -340)
+
+[node name="PillarsColonnade" type="Node3D" parent="."]
+
+[node name="PillarL1" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, -9, 0, -318)
+
+[node name="PillarR1" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, 9, 0, -318)
+
+[node name="PillarL2" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, -12, 0, -340)
+
+[node name="PillarR2" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, 12, 0, -340)
+
+[node name="PillarL3" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, -9, 0, -362)
+
+[node name="PillarR3" parent="PillarsColonnade" instance=ExtResource("4_pillar_dec")]
+transform = Transform3D(1.5, 0, 0, 0, 2.2, 0, 0, 0, 1.5, 9, 0, -362)
+
+[node name="AncientMachinery" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, -350)
+
+[node name="MachineryDevice" parent="AncientMachinery" instance=ExtResource("7_machinery")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Pedestal" parent="AncientMachinery" instance=ExtResource("8_pedestal")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0.8, 0)
+
+[node name="MachineryLight" type="OmniLight3D" parent="AncientMachinery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0, 0)
+light_color = Color(0.9, 0.35, 1, 1)
+light_energy = 2.5
+omni_range = 8.0
+
+[node name="CavernLighting" type="Node3D" parent="."]
+
+[node name="CavernCenterGlow" type="OmniLight3D" parent="CavernLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -340)
+light_color = Color(0.2, 0.85, 1, 1)
+light_energy = 2.4
+omni_range = 24.0
+
+[node name="CavernNorthGlow" type="OmniLight3D" parent="CavernLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -315)
+light_color = Color(0.65, 0.4, 1, 1)
+light_energy = 1.8
+omni_range = 14.0
+
+[node name="CavernSouthGlow" type="OmniLight3D" parent="CavernLighting"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, -365)
+light_color = Color(0.3, 0.8, 1, 1)
+light_energy = 1.8
+omni_range = 14.0
