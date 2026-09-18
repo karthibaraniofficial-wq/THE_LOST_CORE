@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>FUNOBOTZ: The Lost Core — Playable 3D Web Demo</title>
+  <meta name="description" content="Official 3D Playable Web Demo for FUNOBOTZ: The Lost Core. Explore the Discovery World, deploy robotic companions, solve STEAM challenges, and recover the Lost Core.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 3D WebGL Canvas Viewport -->
+  <div id="canvas-container"></div>
+
+  <!-- Top Navigation & Utility Header -->
+  <header class="top-header">
+    <div class="brand-badge">
+      <div class="brand-icon">⚡</div>
+      <span class="brand-title">Funobotz: The Lost Core</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-audio" onclick="toggleAudio()" title="Toggle Audio">
+        <span id="audio-icon">🔊</span> Sound
+      </button>
+      <button class="icon-btn btn-video" id="btn-video-modal" onclick="openVideoModal()" title="Watch Official Gameplay Recording">
+        <span>🎬</span> Watch Video
+      </button>
+      <button class="icon-btn" id="btn-fullscreen" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+        <span>⛶</span> Fullscreen
+      </button>
+    </div>
+  </header>
+
+  <!-- Top-Left: Authoritative Mission Tracker HUD -->
+  <div class="mission-card" id="mission-card">
+    <div class="mission-label">Mission Tracker</div>
+    <div class="mission-title">Recover The Lost Core</div>
+    <div class="objective-text" id="hud-objective">Walk into the Grand Gateway Beacon to begin.</div>
+    <div class="mission-status-pill" id="hud-status">[MISSION_NOT_STARTED]</div>
+  </div>
+
+  <!-- Top-Right: Active Funobot Companion HUD -->
+  <div class="companion-card" id="companion-card">
+    <div class="companion-header">
+      <span class="companion-tag">Active Companion</span>
+      <span class="companion-key-badge" id="hud-bot-key">[1]</span>
+    </div>
+    <div class="companion-name" id="hud-bot-name">Petalo</div>
+    <div class="companion-domain" id="hud-bot-domain">Light & Signalling</div>
+    <div class="companion-ability-desc" id="hud-bot-desc">
+      [F] Emits a luminous golden aura that illuminates dark caves and activates photosensitive switches.
+    </div>
+    <div class="companion-slots">
+      <button class="slot-btn active" data-id="petalo" onclick="selectSlot('petalo')">
+        <span class="slot-num">[1]</span>
+        <span class="slot-name">Petalo</span>
+      </button>
+      <button class="slot-btn" data-id="quacky" onclick="selectSlot('quacky')">
+        <span class="slot-num">[2]</span>
+        <span class="slot-name">Quacky</span>
+      </button>
+      <button class="slot-btn" data-id="tiko" onclick="selectSlot('tiko')">
+        <span class="slot-num">[3]</span>
+        <span class="slot-name">Tiko</span>
+      </button>
+      <button class="slot-btn" data-id="tolly" onclick="selectSlot('tolly')">
+        <span class="slot-num">[4]</span>
+        <span class="slot-name">Tolly</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom-Center: Controls & Key Hints Bar -->
+  <div class="bottom-bar">
+    <div class="key-hint"><span class="key-cap">W</span><span class="key-cap">A</span><span class="key-cap">S</span><span class="key-cap">D</span> Move</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span class="key-cap">Space</span> Jump</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span class="key-cap">Shift</span> Sprint</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span class="key-cap">E</span> Interact</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span class="key-cap">F</span> Ability</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span class="key-cap">1-4</span> Switch Robot</div>
+    <div class="key-divider"></div>
+    <div class="key-hint"><span>🖱️ Drag</span> Orbit</div>
+  </div>
+
+  <!-- Contextual In-World Interaction Prompt -->
+  <div class="interact-prompt" id="interact-prompt">
+    <span class="prompt-key">E</span>
+    <span class="prompt-text">Interact</span>
+  </div>
+
+  <!-- Dynamic Educational Guidance Toast -->
+  <div class="feedback-toast" id="feedback-toast">
+    Hint message goes here
+  </div>
+
+  <!-- Start Screen / Welcome Dialog -->
+  <div class="modal-backdrop" id="start-modal">
+    <div class="modal-dialog">
+      <h1>FUNOBOTZ: THE LOST CORE</h1>
+      <p class="subtitle">3D Adventure Quest & STEAM Mission Challenge</p>
+      
+      <div class="modal-features">
+        <div class="feature-box">
+          <h4>🌟 Discovery World</h4>
+          <p>Explore vibrant plateaus, chasms, caverns, and ancient ruins.</p>
+        </div>
+        <div class="feature-box">
+          <h4>🤖 4 STEAM Companions</h4>
+          <p>Petalo (Optics), Quacky (Velocity), Tiko (Gears), Tolly (Logic).</p>
+        </div>
+        <div class="feature-box">
+          <h4>🧩 Cause & Effect Puzzles</h4>
+          <p>Dissolve brambles, extend bridges, illuminate runes, open gates.</p>
+        </div>
+        <div class="feature-box">
+          <h4>💎 The Lost Core</h4>
+          <p>Recover the sacred energy artifact and save the Discovery World!</p>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-start" onclick="startGame()">
+        PLAY 3D WEB DEMO
+      </button>
+    </div>
+  </div>
+
+  <!-- Victory Complete Modal -->
+  <div class="victory-modal" id="victory-modal">
+    <div class="victory-dialog">
+      <div class="victory-banner">★ MISSION COMPLETE ★</div>
+      <h2>The Discovery World is Saved!</h2>
+      <p>
+        You solved all four STEAM companion challenges, activated the ancient ruins, and successfully recovered the Lost Core!
+      </p>
+      <button class="btn-replay" onclick="restartGame()">
+        PLAY AGAIN
+      </button>
+    </div>
+  </div>
+
+  <!-- Video Showcase Modal -->
+  <div class="video-modal" id="video-modal">
+    <div class="video-container">
+      <div class="video-header">
+        <h3>🎬 Official Gameplay Video Recording (86.03s Vertical Slice)</h3>
+        <button class="btn-close-modal" onclick="closeVideoModal()">✕</button>
+      </div>
+      <video id="gameplay-video" controls preload="metadata">
+        <source src="assets/gameplay_preview.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <!-- Three.js Engine with CDN Fallback -->
+  <script src="js/lib/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Application Modules -->
+  <script src="js/audio.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/character.js"></script>
+  <script src="js/funobotz.js"></script>
+  <script src="js/obstacles.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- UI Action Bindings -->
+  <script>
+    function selectSlot(botId) {
+      if (window.gameApp) {
+        window.gameApp.selectBot(botId);
+      }
+    }
+
+    function toggleAudio() {
+      if (window.audioManager) {
+        const isMuted = window.audioManager.toggleMute();
+        document.getElementById('audio-icon').innerText = isMuted ? '🔇' : '🔊';
+      }
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    function openVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const video = document.getElementById('gameplay-video');
+      modal.classList.add('show');
+      video.play().catch(() => {});
+    }
+
+    function closeVideoModal() {
+      const modal = document.getElementById('video-modal');
+      const video = document.getElementById('gameplay-video');
+      modal.classList.remove('show');
+      video.pause();
+    }
+  </script>
+
+</body>
+</html>
