@@ -13,3 +13,5 @@ Desktop.ini
 video/*.avi
 video/raw_gameplay.avi
 video/test.avi
+
+.vercel/
